@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disuguaglianze tra Giovani - Learning Object Interattivo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* NAVBAR */
+        nav {
+            background: linear-gradient(135deg, #2563EB 0%, #1e40af 100%);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            opacity: 0.8;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* HERO SECTION */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 2rem;
+            border-radius: 12px;
+            margin-bottom: 3rem;
+            text-align: center;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            border-bottom: 3px solid #2563EB;
+            padding-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: white;
+            border: 2px solid #2563EB;
+            color: #2563EB;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-button:hover,
+        .tab-button.active {
+            background: #2563EB;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-bottom: 2rem;
+        }
+
+        .section h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #2563EB;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+        }
+
+        .section h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF6B35;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .section ul {
+            margin-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section li {
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+
+        /* CARDS */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 5px solid #2563EB;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2563EB;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #666;
+        }
+
+        /* ACCESSIBILITY TOOLBAR */
+        .accessibility-toolbar {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .accessibility-button {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .accessibility-button:hover {
+            background: #1e40af;
+            transform: scale(1.05);
+        }
+
+        /* DYSLEXIA MODE */
+        body.dyslexia-mode {
+            font-family: 'Arial', sans-serif;
+            letter-spacing: 0.15em;
+            line-height: 1.8;
+        }
+
+        body.dyslexia-mode * {
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* HIGH CONTRAST MODE */
+        body.high-contrast {
+            background: #000;
+            color: #fff;
+        }
+
+        body.high-contrast nav {
+            background: #000;
+            border: 2px solid #fff;
+        }
+
+        body.high-contrast .tab-button {
+            background: #fff;
+            color: #000;
+            border: 2px solid #fff;
+        }
+
+        body.high-contrast .tab-button.active {
+            background: #ffff00;
+            color: #000;
+        }
+
+        body.high-contrast .tab-content {
+            background: #000;
+            color: #fff;
+            border: 2px solid #fff;
+        }
+
+        /* FOOTER */
+        footer {
+            background: #111;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            margin-bottom: 0.5rem;
+        }
+
+        footer a {
+            color: #2563EB;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* QUIZ STYLES */
+        .quiz-container {
+            background: #f0f4ff;
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+        }
+
+        .quiz-question {
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-question h4 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #2563EB;
+            margin-bottom: 1rem;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .quiz-option {
+            background: white;
+            border: 2px solid #ddd;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .quiz-option:hover {
+            border-color: #2563EB;
+            background: #f0f4ff;
+        }
+
+        .quiz-option.selected {
+            background: #2563EB;
+            color: white;
+            border-color: #2563EB;
+        }
+
+        .quiz-option.correct {
+            background: #10B981;
+            color: white;
+            border-color: #10B981;
+        }
+
+        .quiz-option.incorrect {
+            background: #EF4444;
+            color: white;
+            border-color: #EF4444;
+        }
+
+        .quiz-feedback {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+        }
+
+        .quiz-feedback.correct {
+            background: #D1FAE5;
+            color: #065F46;
+            border-left: 4px solid #10B981;
+        }
+
+        .quiz-feedback.incorrect {
+            background: #FEE2E2;
+            color: #7F1D1D;
+            border-left: 4px solid #EF4444;
+        }
+
+        /* BUTTON STYLES */
+        .btn {
+            background: #2563EB;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* PROGRESS BAR */
+        .progress-bar {
+            background: #e5e7eb;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #2563EB 0%, #FF6B35 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* CHART CONTAINER */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            margin: 2rem 0;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav>
+        <div class="logo">🌍 Disuguaglianze Giovani</div>
+        <ul>
+            <li><a onclick="switchTab('home')">Home</a></li>
+            <li><a onclick="switchTab('economia')">Economia</a></li>
+            <li><a onclick="switchTab('geografia')">Geografia</a></li>
+            <li><a onclick="switchTab('storia')">Storia</a></li>
+            <li><a onclick="switchTab('diritto')">Diritto</a></li>
+            <li><a onclick="switchTab('quiz')">Quiz</a></li>
+        </ul>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- HERO SECTION -->
+        <div class="hero">
+            <h1>🌍 Disuguaglianze tra Giovani</h1>
+            <p>Un percorso multidisciplinare per comprendere le cause delle disuguaglianze e sviluppare consapevolezza critica</p>
+            <p style="font-size: 0.95rem; opacity: 0.9;">Collegato agli Obiettivi Agenda 2030: Goal 4 (Istruzione), Goal 8 (Lavoro Dignitoso), Goal 10 (Ridurre le Disuguaglianze)</p>
+        </div>
+
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('home')">🏠 Home</button>
+            <button class="tab-button" onclick="switchTab('economia')">💰 Economia</button>
+            <button class="tab-button" onclick="switchTab('geografia')">🗺️ Geografia</button>
+            <button class="tab-button" onclick="switchTab('storia')">📖 Storia</button>
+            <button class="tab-button" onclick="switchTab('diritto')">⚖️ Diritto</button>
+            <button class="tab-button" onclick="switchTab('quiz')">✅ Quiz</button>
+        </div>
+
+        <!-- HOME TAB -->
+        <div id="home" class="tab-content active">
+            <div class="section">
+                <h2>📚 Benvenuto nel Learning Object</h2>
+                <p>Questo percorso didattico multidisciplinare esplora le disuguaglianze che colpiscono i giovani in tutto il mondo. Scoprirai come economia, geografia, storia e diritto si intrecciano per creare e perpetuare le disparità di opportunità.</p>
+                
+                <h3>🎯 Obiettivi di Apprendimento</h3>
+                <ul>
+                    <li><strong>Comprendere</strong> le cause storiche, economiche e sociali delle disuguaglianze</li>
+                    <li><strong>Analizzare</strong> dati e indicatori che misurano le disuguaglianze globali</li>
+                    <li><strong>Collegare</strong> i principi costituzionali ai problemi contemporanei</li>
+                    <li><strong>Proporre</strong> soluzioni concrete basate su Agenda 2030</li>
+                </ul>
+
+                <h3>📊 Cosa Scoprirai</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h4>💰 Economia</h4>
+                        <p>Curva di Lorenz, Indice di Gini, distribuzione della ricchezza e disuguaglianze economiche globali.</p>
+                    </div>
+                    <div class="card">
+                        <h4>🗺️ Geografia</h4>
+                        <p>Divario Nord-Sud, Indice di Sviluppo Umano (HDI), accesso all'istruzione e lavoro per i giovani.</p>
+                    </div>
+                    <div class="card">
+                        <h4>📖 Storia</h4>
+                        <p>Rivoluzione Francese, abolizione della schiavitù, movimento per i diritti civili e lotte per l'uguaglianza.</p>
+                    </div>
+                    <div class="card">
+                        <h4>⚖️ Diritto</h4>
+                        <p>Articoli 3 e 34 della Costituzione, diritti umani, uguaglianza sostanziale e protezione legale.</p>
+                    </div>
+                </div>
+
+                <h3>🌍 Agenda 2030</h3>
+                <p>Questo percorso è collegato a tre obiettivi cruciali dell'Agenda 2030:</p>
+                <ul>
+                    <li><strong>Goal 4:</strong> Istruzione di qualità - Garantire un'istruzione inclusiva e equa</li>
+                    <li><strong>Goal 8:</strong> Lavoro dignitoso - Promuovere una crescita economica inclusiva</li>
+                    <li><strong>Goal 10:</strong> Ridurre le disuguaglianze - Ridurre le ineguaglianze entro e tra i paesi</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ECONOMIA TAB -->
+        <div id="economia" class="tab-content">
+            <div class="section">
+                <h2>💰 Economia: Misurare le Disuguaglianze</h2>
+                <p>Non tutti i paesi partono dalla stessa posizione. Risorse, reddito e opportunità sono distribuiti in modo profondamente disuguale tra le nazioni. Scopri come gli economisti misurano queste disuguaglianze.</p>
+
+                <h3>📈 Indice di Gini</h3>
+                <p>L'Indice di Gini è una misura statistica che valuta quanto è diseguale la distribuzione del reddito (o della ricchezza) all'interno di una popolazione. Va da 0 (uguaglianza perfetta) a 100 (massima diseguaglianza).</p>
+                <div class="chart-container">
+                    <canvas id="giniChart"></canvas>
+                </div>
+
+                <h3>📊 Curva di Lorenz</h3>
+                <p>La Curva di Lorenz mostra graficamente come il reddito è distribuito in una popolazione. Più la curva si allontana dalla diagonale, maggiore è la diseguaglianza all'interno di quella popolazione.</p>
+                <div class="chart-container">
+                    <canvas id="lorenzChart"></canvas>
+                </div>
+
+                <h3>🌐 Cause delle Disuguaglianze Economiche</h3>
+                <ul>
+                    <li>Elevato indebitamento dei paesi in via di sviluppo</li>
+                    <li>Basso livello di istruzione e accesso limitato al lavoro qualificato</li>
+                    <li>Sfruttamento delle risorse naturali</li>
+                    <li>Crisi economiche e instabilità politica</li>
+                    <li>Accesso ineguale al capitale e ai finanziamenti</li>
+                </ul>
+
+                <h3>💡 Attività Interattiva</h3>
+                <p><strong>Simulazione Budget:</strong> Immagina di essere un ministro dell'economia di un paese emergente. Hai un budget limitato per investire in occupazione giovanile. Come lo distribuiresti tra:</p>
+                <ul>
+                    <li>Formazione professionale</li>
+                    <li>Incentivi alle imprese</li>
+                    <li>Infrastrutture digitali</li>
+                    <li>Programmi di supporto ai giovani imprenditori</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- GEOGRAFIA TAB -->
+        <div id="geografia" class="tab-content">
+            <div class="section">
+                <h2>🗺️ Geografia: Il Divario Globale</h2>
+                <p>Le opportunità per i giovani non sono distribuite equamente nel mondo. Scopri come la geografia influenza l'accesso all'istruzione, al lavoro e alle risorse.</p>
+
+                <h3>🌍 Indice di Sviluppo Umano (HDI)</h3>
+                <p>L'HDI misura il livello di sviluppo di un paese considerando tre dimensioni: speranza di vita, istruzione e reddito pro capite. Permette di confrontare paesi molto diversi tra loro.</p>
+                <div class="chart-container">
+                    <canvas id="hdiChart"></canvas>
+                </div>
+
+                <h3>📊 Disoccupazione Giovanile per Regione</h3>
+                <p>La disoccupazione giovanile varia significativamente tra le regioni. In alcune aree del Sud Europa è molto alta, mentre nei paesi del Nord Europa è più contenuta.</p>
+                <div class="chart-container">
+                    <canvas id="disoccupazioneChart"></canvas>
+                </div>
+
+                <h3>🎓 Accesso all'Istruzione</h3>
+                <ul>
+                    <li><strong>Europa e Asia Orientale:</strong> La maggioranza dei giovani completa la scuola superiore</li>
+                    <li><strong>Africa subsahariana e Asia meridionale:</strong> Molti ragazzi non terminano il ciclo di studi</li>
+                    <li><strong>Cause principali (UNESCO):</strong> Povertà, distanza geografica dalle scuole, conflitti</li>
+                </ul>
+
+                <h3>💡 Attività Interattiva</h3>
+                <p><strong>Analisi Continentale:</strong> Scegli un continente e analizza:</p>
+                <ul>
+                    <li>Livello medio di istruzione</li>
+                    <li>Principali ostacoli all'istruzione</li>
+                    <li>Possibili soluzioni</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- STORIA TAB -->
+        <div id="storia" class="tab-content">
+            <div class="section">
+                <h2>📖 Storia: Lotte per l'Uguaglianza</h2>
+                <p>La storia ci insegna che l'uguaglianza è il risultato di lotte, idee e azioni collettive. Scopri come le società hanno affrontato le disuguaglianze nel corso del tempo.</p>
+
+                <h3>🇫🇷 La Rivoluzione Francese (1789)</h3>
+                <p>La Rivoluzione francese esplode nel 1789 in un contesto di grave crisi economica, sociale e politica. La società dell'Antico Regime era divisa in tre ordini: clero, nobiltà e Terzo Stato.</p>
+                <ul>
+                    <li><strong>Cause:</strong> Crisi finanziaria, sistema fiscale ingiusto, influenza delle idee illuministiche</li>
+                    <li><strong>Eventi chiave:</strong> Presa della Bastiglia (14 luglio 1789), Dichiarazione dei diritti dell'uomo e del cittadino</li>
+                    <li><strong>Risultato:</strong> Fine dell'assolutismo, affermazione della sovranità popolare e dell'uguaglianza giuridica</li>
+                </ul>
+
+                <h3>⛓️ L'Abolizione della Schiavitù</h3>
+                <p>La schiavitù moderna fu uno dei sistemi più violenti e disumani della storia. Tra il XVI e il XIX secolo, milioni di africani furono deportati verso le Americhe.</p>
+                <ul>
+                    <li><strong>Commercio triangolare:</strong> Europa → Africa → Americhe</li>
+                    <li><strong>Resistenza:</strong> Rivoluzione haitiana (1791-1804), movimento abolizionista</li>
+                    <li><strong>Abolizione:</strong> XIII emendamento USA (1865)</li>
+                    <li><strong>Lezione:</strong> Abolire la schiavitù non eliminò automaticamente il razzismo</li>
+                </ul>
+
+                <h3>🤝 Il Movimento per i Diritti Civili</h3>
+                <p>Nonostante la fine della schiavitù, negli Stati Uniti del Novecento la popolazione afroamericana continuava a subire forti discriminazioni.</p>
+                <ul>
+                    <li><strong>1955:</strong> Rosa Parks si rifiuta di cedere il posto sull'autobus</li>
+                    <li><strong>1963:</strong> Marcia su Washington, discorso "I Have a Dream" di Martin Luther King Jr.</li>
+                    <li><strong>1964:</strong> Civil Rights Act - vieta la discriminazione negli spazi pubblici e nel lavoro</li>
+                    <li><strong>1965:</strong> Voting Rights Act - garantisce il diritto di voto agli afroamericani</li>
+                </ul>
+
+                <h3>💡 Lezione Storica</h3>
+                <p>La lotta per l'uguaglianza è un processo lungo e non ancora concluso. L'azione collettiva nonviolenta può modificare la società e le leggi, esattamente come ci ricorda l'Agenda 2030.</p>
+            </div>
+        </div>
+
+        <!-- DIRITTO TAB -->
+        <div id="diritto" class="tab-content">
+            <div class="section">
+                <h2>⚖️ Diritto: Il Quadro Costituzionale</h2>
+                <p>La Costituzione italiana non si limita a dichiarare che tutti siamo uguali sulla carta. Impone allo Stato di intervenire attivamente per colmare le differenze reali.</p>
+
+                <h3>📜 Articoli Costituzionali Chiave</h3>
+                <div class="cards-grid">
+                    <div class="card">
+                        <h4>Art. 3 - Uguaglianza Sostanziale</h4>
+                        <p>È compito della Repubblica rimuovere gli ostacoli economici e sociali che impediscono il pieno sviluppo della persona. Non basta l'uguaglianza formale: lo Stato deve agire concretamente.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Art. 34 - Diritto all'Istruzione</h4>
+                        <p>L'istruzione è garantita a tutti. I capaci e meritevoli, anche senza risorse economiche, devono poter raggiungere i gradi più alti degli studi. Base costituzionale delle borse di studio.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Art. 36 - Retribuzione Dignitosa</h4>
+                        <p>Ogni lavoratore ha diritto a una paga proporzionata e sufficiente per una vita libera e dignitosa. Baluardo contro il lavoro povero che colpisce i giovani.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Art. 37 - Parità di Genere nel Lavoro</h4>
+                        <p>Tutela il lavoro delle donne e dei minori, stabilendo la parità di diritti e di retribuzione. Fondamento di tutta la legislazione sulla parità di genere.</p>
+                    </div>
+                </div>
+
+                <h3>🌐 Come si Manifestano le Disuguaglianze?</h3>
+                <ul>
+                    <li><strong>Disuguaglianza Economica:</strong> Il 24% dei giovani 15-29 anni è NEET (non studia, non lavora, non si forma). Forte divario Nord-Sud.</li>
+                    <li><strong>Disuguaglianza di Genere:</strong> Le giovani donne guadagnano in media il 18% in meno rispetto ai coetanei maschi.</li>
+                    <li><strong>Disuguaglianza Educativa:</strong> Un minore su quattro cresce in famiglie con povertà educativa.</li>
+                </ul>
+
+                <h3>💡 Strumenti Concreti</h3>
+                <ul>
+                    <li><strong>Garanzia Giovani:</strong> Misura europea che contrasta l'esclusione sociale degli under 30</li>
+                    <li><strong>Leggi sulla Parità:</strong> D.Lgs. 198/2006 per la parità di genere</li>
+                    <li><strong>Leggi sull'Occupazione:</strong> L. 68/1999 per l'inserimento lavorativo di persone con disabilità</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- QUIZ TAB -->
+        <div id="quiz" class="tab-content">
+            <div class="section">
+                <h2>✅ Quiz di Verifica</h2>
+                <p>Metti alla prova le tue conoscenze sulle disuguaglianze tra giovani. Rispondi alle domande e ricevi feedback immediato!</p>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <p style="text-align: center; margin-bottom: 1.5rem;"><strong>Progresso: <span id="progressText">0</span>/4 domande</strong></p>
+
+                <div class="quiz-container">
+                    <div class="quiz-question">
+                        <h4>1. Cosa misura l'Indice di Gini?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, true)">La distribuzione del reddito in una popolazione (0-100)</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Il PIL di un paese</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Il tasso di disoccupazione</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">L'inflazione economica</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>2. Quale articolo della Costituzione garantisce il diritto all'istruzione?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Art. 3</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true)">Art. 34</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Art. 36</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Art. 37</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>3. In quale anno è avvenuta la Rivoluzione Francese?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">1776</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true)">1789</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">1804</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">1865</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+
+                    <div class="quiz-question">
+                        <h4>4. Quale obiettivo Agenda 2030 riguarda la riduzione delle disuguaglianze?</h4>
+                        <div class="quiz-options">
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Goal 4 - Istruzione di qualità</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Goal 8 - Lavoro dignitoso</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, true)">Goal 10 - Ridurre le disuguaglianze</div>
+                            <div class="quiz-option" onclick="checkAnswer(this, false)">Goal 16 - Pace e giustizia</div>
+                        </div>
+                        <div class="quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <button class="btn" onclick="resetQuiz()">Ripeti il Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ACCESSIBILITY TOOLBAR -->
+    <div class="accessibility-toolbar">
+        <button class="accessibility-button" onclick="toggleDyslexiaMode()">🔤 Dislessia</button>
+        <button class="accessibility-button" onclick="toggleHighContrast()">🌓 Contrasto</button>
+        <button class="accessibility-button" onclick="toggleTextSize()">🔍 Testo</button>
+        <button class="accessibility-button" onclick="speakPage()">🔊 Leggi</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+        <p><strong>Disuguaglianze tra Giovani - Learning Object Interattivo</strong></p>
+        <p>Un percorso multidisciplinare per comprendere le disuguaglianze e sviluppare consapevolezza critica</p>
+        <p>Collegato agli Obiettivi Agenda 2030: Goal 4, Goal 8, Goal 10</p>
+        <p style="margin-top: 1rem; font-size: 0.9rem;">© 2026 - Progetto Didattico Inclusivo</p>
+    </footer>
+
+    <script>
+        let quizAnswered = 0;
+        let textSizeMultiplier = 1;
+
+        // TAB SWITCHING
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab-content');
+            const buttons = document.querySelectorAll('.tab-button');
+
+            tabs.forEach(tab => tab.classList.remove('active'));
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Initialize charts when switching to economia tab
+            if (tabName === 'economia') {
+                setTimeout(() => {
+                    initGiniChart();
+                    initLorenzChart();
+                }, 100);
+            }
+
+            if (tabName === 'geografia') {
+                setTimeout(() => {
+                    initHDIChart();
+                    initDisoccupazioneChart();
+                }, 100);
+            }
+        }
+
+        // CHART INITIALIZATION
+        function initGiniChart() {
+            const ctx = document.getElementById('giniChart');
+            if (ctx && !ctx.giniChartInstance) {
+                ctx.giniChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Svezia', 'Norvegia', 'Danimarca', 'Italia', 'USA', 'Brasile', 'Sud Africa'],
+                        datasets: [{
+                            label: 'Indice di Gini',
+                            data: [27, 27, 28, 36, 41, 54, 63],
+                            backgroundColor: [
+                                '#10B981', '#10B981', '#10B981', '#FF6B35', '#FF6B35', '#EF4444', '#EF4444'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initLorenzChart() {
+            const ctx = document.getElementById('lorenzChart');
+            if (ctx && !ctx.lorenzChartInstance) {
+                ctx.lorenzChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['0%', '20%', '40%', '60%', '80%', '100%'],
+                        datasets: [
+                            {
+                                label: 'Uguaglianza Perfetta',
+                                data: [0, 20, 40, 60, 80, 100],
+                                borderColor: '#10B981',
+                                borderDash: [5, 5],
+                                fill: false
+                            },
+                            {
+                                label: 'Curva di Lorenz (Paese Disuguale)',
+                                data: [0, 5, 15, 35, 65, 100],
+                                borderColor: '#EF4444',
+                                fill: true,
+                                backgroundColor: 'rgba(239, 68, 68, 0.1)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initHDIChart() {
+            const ctx = document.getElementById('hdiChart');
+            if (ctx && !ctx.hdiChartInstance) {
+                ctx.hdiChartInstance = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: ['Speranza di Vita', 'Istruzione', 'Reddito Pro Capite'],
+                        datasets: [
+                            {
+                                label: 'Paese Sviluppato',
+                                data: [80, 95, 90],
+                                borderColor: '#10B981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.2)'
+                            },
+                            {
+                                label: 'Paese in Via di Sviluppo',
+                                data: [65, 60, 40],
+                                borderColor: '#EF4444',
+                                backgroundColor: 'rgba(239, 68, 68, 0.2)'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            r: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+            }
+        }
+
+        function initDisoccupazioneChart() {
+            const ctx = document.getElementById('disoccupazioneChart');
+            if (ctx && !ctx.disoccupazioneChartInstance) {
+                ctx.disoccupazioneChartInstance = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Nord Europa', 'Europa Centrale', 'Sud Europa', 'Africa', 'Asia Meridionale'],
+                        datasets: [{
+                            label: 'Tasso di Disoccupazione Giovanile (%)',
+                            data: [12, 18, 35, 28, 22],
+                            backgroundColor: ['#10B981', '#FFD700', '#FF6B35', '#EF4444', '#EF4444']
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: true }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, max: 50 }
+                        }
+                    }
+                });
+            }
+        }
+
+        // QUIZ FUNCTIONS
+        function checkAnswer(element, isCorrect) {
+            const question = element.closest('.quiz-question');
+            const options = question.querySelectorAll('.quiz-option');
+            const feedback = question.querySelector('.quiz-feedback');
+
+            options.forEach(opt => {
+                opt.style.pointerEvents = 'none';
+                if (opt === element) {
+                    if (isCorrect) {
+                        opt.classList.add('correct');
+                        feedback.textContent = '✓ Corretto! Ottimo lavoro!';
+                        feedback.classList.add('show', 'correct');
+                    } else {
+                        opt.classList.add('incorrect');
+                        feedback.textContent = '✗ Non corretto. Riprova!';
+                        feedback.classList.add('show', 'incorrect');
+                    }
+                }
+            });
+
+            if (isCorrect) {
+                quizAnswered++;
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (quizAnswered / 4) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = quizAnswered;
+        }
+
+        function resetQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            questions.forEach(q => {
+                q.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('correct', 'incorrect', 'selected');
+                    opt.style.pointerEvents = 'auto';
+                });
+                q.querySelector('.quiz-feedback').classList.remove('show', 'correct', 'incorrect');
+            });
+            quizAnswered = 0;
+            updateProgress();
+        }
+
+        // ACCESSIBILITY FUNCTIONS
+        function toggleDyslexiaMode() {
+            document.body.classList.toggle('dyslexia-mode');
+        }
+
+        function toggleHighContrast() {
+            document.body.classList.toggle('high-contrast');
+        }
+
+        function toggleTextSize() {
+            textSizeMultiplier = textSizeMultiplier === 1 ? 1.2 : 1;
+            document.body.style.fontSize = (16 * textSizeMultiplier) + 'px';
+        }
+
+        function speakPage() {
+            const text = document.querySelector('.tab-content.active').innerText;
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'it-IT';
+                speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initGiniChart();
+            initLorenzChart();
+        });
+    </script>
+</body>
+</html>
